@@ -7,73 +7,77 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolling(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolling(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (id) => {
-    if (id === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top for Home
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     } else {
-      const section = document.getElementById(id);
-
-      if (location.pathname !== "/") {
-        window.location.href = "/"; // Redirect to home first
-        setTimeout(() => {
-          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 500); // Delay ensures home loads before scrolling
-      } else {
-        section?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      // If section not found (e.g., on another route), navigate with hash
+      window.location.href = `/#${id}`;
     }
-
-    setMenuOpen(false); // Close mobile menu after clicking
+    setMenuOpen(false);
   };
+
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "skill", label: "Skill" },
+    { id: "certificate", label: "Certificate" },
+    { id: "projects", label: "Projects" },
+    { id: "contact", label: "Contact" },
+  ];
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full px-8 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full px-4 sm:px-6 md:px-8 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
         scrolling ? "bg-gray-900 shadow-lg" : "bg-transparent"
       }`}
     >
-      {/* Logo / Name */}
-      <Link to="/" className="text-xl font-bold text-white" onClick={() => scrollToSection("home")}>
+      <Link
+        to="/"
+        className="text-xl font-bold text-white"
+        onClick={() => scrollToSection("home")}
+      >
         M. Peer Mohammed
       </Link>
 
-      {/* Desktop Navigation */}
-      <ul className="hidden md:flex space-x-8 text-white text-lg">
-        {["home", "about", "skill", "projects", "contact"].map((item, index) => (
+      {/* Desktop Menu */}
+      <ul className="hidden md:flex space-x-4 sm:space-x-6 md:space-x-8 text-white text-base sm:text-lg">
+        {navItems.map(({ id, label }) => (
           <li
-            key={index}
-            className="relative cursor-pointer transition-all duration-300 hover:text-blue-400"
-            onClick={() => scrollToSection(item)}
+            key={id}
+            className="relative cursor-pointer transition hover:text-blue-400"
+            onClick={() => scrollToSection(id)}
           >
-            <span className="block">{item.charAt(0).toUpperCase() + item.slice(1)}</span>
+            <span>{label}</span>
             <span className="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 transition-all duration-300 hover:w-full"></span>
           </li>
         ))}
       </ul>
 
-      {/* Mobile Menu Button */}
-      <div className="md:hidden text-white text-3xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
+      {/* Mobile Hamburger */}
+      <div
+        className="md:hidden text-white text-3xl cursor-pointer"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
         {menuOpen ? "✖" : "☰"}
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-gray-900 p-5 flex flex-col items-center space-y-4 md:hidden">
-          {["home", "about", "skill", "projects", "contact"].map((item, index) => (
+        <div className="absolute top-16 left-0 w-full bg-gray-900 px-5 py-6 flex flex-col items-center space-y-4 md:hidden">
+          {navItems.map(({ id, label }) => (
             <div
-              key={index}
+              key={id}
               className="text-white text-lg cursor-pointer hover:text-blue-400"
-              onClick={() => scrollToSection(item)}
+              onClick={() => scrollToSection(id)}
             >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
+              {label}
             </div>
           ))}
         </div>

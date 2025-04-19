@@ -60,15 +60,15 @@ const projects = [
 
 const Projects = () => {
   return (
-    <section id="projects" className="bg-gray-900 py-10 px-5 text-white">
-      <h2 className="text-4xl font-bold text-center mb-4 text-blue-400">Projects</h2>
+    <section id="projects" className="bg-gray-900 py-14 px-5 md:px-10 text-white">
+      <h2 className="text-4xl font-bold text-center mb-6 text-blue-400">Projects</h2>
 
-      <p className="text-gray-300 text-center max-w-3xl mx-auto mb-6">
+      <p className="text-gray-300 text-center max-w-3xl mx-auto mb-10 text-base md:text-lg">
         Here are some of the projects I've built using modern web technologies.  
         Each project showcases different skills, from React development to UI/UX design.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
         {projects.map((project, index) => {
           const isLeft = index % 2 === 0;
           const isLast = index === projects.length - 1 && project.center;
@@ -76,16 +76,22 @@ const Projects = () => {
           return (
             <motion.div
               key={project.id}
-              className={`bg-gray-800/60 p-5 rounded-lg shadow-lg ${
-                isLast ? "md:col-span-2 mx-auto max-w-lg" : ""
+              className={`bg-gray-800/60 p-6 rounded-xl shadow-lg flex flex-col justify-between ${
+                isLast ? "md:col-span-2 mx-auto max-w-xl" : ""
               }`}
               initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: isLeft ? -50 : 50 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }} // 🔹 Faster Animation
-              viewport={{ once: false, amount: 0.2 }} // 🔹 Trigger Earlier
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              viewport={{ once: true, amount: 0.2 }}
             >
-              <Tilt className="hidden lg:block" tiltMaxAngleX={10} tiltMaxAngleY={10} glareEnable glareMaxOpacity={0.4}>
+              <Tilt
+                className="hidden lg:block"
+                tiltMaxAngleX={10}
+                tiltMaxAngleY={10}
+                glareEnable
+                glareMaxOpacity={0.3}
+              >
                 <img
                   src={project.image}
                   alt={project.title}
@@ -103,8 +109,9 @@ const Projects = () => {
                 />
               </div>
 
-              <h3 className="text-2xl font-semibold mt-4">{project.title}</h3>
-              <p className="text-gray-300 mt-2">{project.description}</p>
+              <h3 className="text-2xl font-semibold mt-5">{project.title}</h3>
+              <p className="text-gray-300 mt-2 text-sm sm:text-base">{project.description}</p>
+
               <div className="mt-3 flex flex-wrap gap-2">
                 {project.tech.map((tech, index) => (
                   <span key={index} className="bg-green-600 px-2 py-1 text-sm rounded-md">
@@ -112,12 +119,13 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
-              <div className="flex gap-4 mt-4">
+
+              <div className="flex flex-wrap sm:flex-nowrap gap-4 mt-5">
                 <a
                   href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg flex items-center gap-2"
+                  className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg flex items-center gap-2 justify-center w-full sm:w-auto"
                 >
                   Live Demo <FaExternalLinkAlt />
                 </a>
@@ -125,7 +133,7 @@ const Projects = () => {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg flex items-center gap-2"
+                  className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 justify-center w-full sm:w-auto"
                 >
                   GitHub <FaGithub />
                 </a>

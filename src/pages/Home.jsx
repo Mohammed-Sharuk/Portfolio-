@@ -6,23 +6,28 @@ import Skills from "../components/Skills";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import Certificates from "../components/Certificates";
-import ScrollToTop from "../utils/ScrollToTop"; // ✅ Import ScrollToTop
+import MainCertificates from "../components/MainCertificates";
+import ScrollToTop from "../utils/ScrollToTop";
 
 const Home = () => {
   return (
     <Router>
-      <ScrollToTop />  {/* ✅ Scroll to top effect */}
+      <ScrollToTop />
       <Navbar />
       <Routes>
-        <Route path="/" element={
-          <>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Contact />
-          </>
-        } />
+        <Route
+          path="/"
+          element={
+            <>
+              <Hero />
+              <About />
+              <Skills />
+              <MainCertificates />
+              <Projects />
+              <Contact />
+            </>
+          }
+        />
         <Route path="/certificates" element={<Certificates />} />
       </Routes>
     </Router>
