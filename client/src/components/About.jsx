@@ -98,7 +98,7 @@ const About = () => {
           transition={{ duration: 1 }}
         >
           <img
-            src="/your-image.png" // Replace with your image path
+            src="/mine.green.jpg" // Replace with your image path
             alt="Profile"
             className="rounded-2xl w-72 h-72 object-cover shadow-xl"
           />
